@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  appName: 'Hamster App',
+  appUrl: 'http://127.0.0.1:8000/hamster',
+  sessionAge: 259200000,
 };
 
 /*

@@ -1,0 +1,13 @@
+.contrib-item {
+	&__unread {
+		color: --ion-color-success;
+	}
+
+	&__read{
+		color: --ion-color-primary;
+	}
+
+	&__concept {
+		text-overflow: ellipsis;
+	}
+}

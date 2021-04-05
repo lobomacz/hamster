@@ -1,0 +1,18 @@
+.main {
+	&-header {
+		text-align: center;
+	}
+
+	&-card {
+		width: 80%;
+		display: inline-block;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		text-align: center;
+		&-img {
+			width: 50vw;
+		}
+	}
+}

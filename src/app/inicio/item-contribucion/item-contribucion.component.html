@@ -1,0 +1,18 @@
+<ion-item *ngIf="contribucion && beneficiario && funcionario" [routerLink]="['/inicio/ver/', contribucion.id]" [detail]="true">
+	<!-- <div slot="start" [class]="!contribucion.read ? 'dot dot-unread':'dot'"></div> -->
+	<ion-icon slot="start" class="contrib-item__read" name="{{ icono }}"></ion-icon>
+	<ion-label class="ion-text-wrap">
+		<h2>
+			{{ beneficiario.primer_nombre.concat(' ', beneficiario.primer_apellido) | uppercase }}
+		</h2>
+		<ion-note slot="end">{{ contribucion.fecha | date:'d-MM-yyyy' }}</ion-note>
+		<ion-text color="success">
+			<p>
+				{{ funcionario.institucion.siglas | uppercase }}
+			</p>
+		</ion-text>
+	</ion-label>
+	<ion-label>
+		<h3>C$ {{ contribucion.monto | number:'1.2-2' }}</h3>
+	</ion-label>
+</ion-item>

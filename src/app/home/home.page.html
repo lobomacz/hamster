@@ -1,11 +1,26 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
     <ion-title>
-      Inbox
+      {{ AppName }}
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/login" >
+        <ion-icon slot="icon-only" name="enter-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
+<ion-content>
+  <ion-card class="main-card">
+    <ion-card-header class="main-header">
+      <ion-card-title>¡Hola!</ion-card-title>
+    </ion-card-header>
+    <img class="main-card-img" src="../../assets/img/hamster.png" alt="hamster image" />
+  </ion-card>
+</ion-content>
+
+<!--
 <ion-content [fullscreen]="true">
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
@@ -23,3 +38,4 @@
     <app-message *ngFor="let message of getMessages()" [message]="message"></app-message>
   </ion-list>
 </ion-content>
+-->

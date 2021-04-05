@@ -1,0 +1,53 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="/inicio"></ion-back-button>
+		</ion-buttons>
+		<ion-title>
+			{{ 'Detalle de Ayuda' | uppercase }}
+		</ion-title>
+	</ion-toolbar>
+</ion-header>
+<ion-content>
+	<ion-card *ngIf="contribucion && beneficiario && funcionario" class="card">
+		<ion-card-header>
+			<ion-card-title>{{ beneficiario.primer_nombre.concat(' ', beneficiario.primer_apellido) | uppercase }}</ion-card-title>
+			<ion-card-subtitle>
+				{{ beneficiario.cedula | uppercase }}
+			</ion-card-subtitle>
+		</ion-card-header>
+		<ion-card-content>
+			<ion-icon class="card-icon" size="large" name="{{ icono }}"></ion-icon>
+			<ion-label class="card-date">{{ 'Fecha: ' | uppercase }}{{ contribucion.fecha | date:'d-MM-y' }}</ion-label>
+			<ion-item-divider></ion-item-divider>
+			<ion-item>
+				<h3>{{ 'Concepto: ' + contribucion.concepto | uppercase }}</h3>
+			</ion-item>
+			<ion-item>
+				<h3>
+					{{ 'Entregado por: ' + funcionario.nombre + ' ' + funcionario.apellido | uppercase }}
+				</h3>
+				
+			</ion-item>
+			<ion-item>
+				<h3>
+					{{ 'Institución: ' + funcionario.institucion.nombre | uppercase }}
+				</h3>
+			</ion-item>
+			<ion-item>
+				<h2>{{ 'Monto: C$' | uppercase }}&nbsp;</h2>
+				<ion-text color="primary">
+					<h1>{{  contribucion.monto | number:'1.2-2' }}</h1>
+				</ion-text>
+			</ion-item>
+			<ion-item>
+				<h2>
+					{{ 'Digitador: ' }}
+				</h2>&nbsp;
+				<ion-text color="secondary">
+					{{ contribucion.digitador | uppercase }}
+				</ion-text>
+			</ion-item>
+		</ion-card-content>
+	</ion-card>
+</ion-content>

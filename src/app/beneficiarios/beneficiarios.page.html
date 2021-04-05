@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-button (click)="Logout()">
+            <ion-icon name="exit-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+    <ion-title>{{ 'Beneficiarios' | uppercase }}</ion-title>
+    <ion-buttons slot="end">
+    	<ion-button [routerLink]="['/inicio']">
+    		<ion-icon slot="icon-only" name="hand-left-outline" fill="clear" ></ion-icon>
+    	</ion-button>
+    	<ion-button [routerLink]="['/beneficiarios/nuevo']">
+    		<ion-icon slot="icon-only" name="add-outline" fill="clear" ></ion-icon>
+    	</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="beneficiarios">
+	
+	<ion-list>
+		<ion-list-header>
+			<ion-text color="primary">
+				<h2>{{ 'Lista de Beneficiarios' | uppercase }}</h2>
+			</ion-text>
+		</ion-list-header>
+		<app-item-benef *ngFor="let beneficiario of beneficiarios" [beneficiario]="beneficiario" ></app-item-benef>
+	</ion-list>
+</ion-content>

@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ AppName }}&mdash;Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="login-content">
+	<ion-card class="login-card">
+		<ion-card-header>
+			<ion-card-title>
+				Ingreso de Usuarios
+			</ion-card-title>
+		</ion-card-header>
+		<ion-card-content>
+			<ion-item class="login-item">
+				<ion-input #usuario="ngModel" [(ngModel)]="nombreusuario" type="email" maxlength="50" name="username" placeholder="Usuario" required></ion-input>
+				<ion-icon slot="end" name="person-outline" ></ion-icon>
+			</ion-item>
+			<ion-item class="login-item">
+				<ion-input #clave="ngModel" [(ngModel)]="contrasena" type="password" name="password" maxlength="25" minlength="8" placeholder="Contraseña" required></ion-input>
+				<ion-icon slot="end" name="key-outline" ></ion-icon>
+			</ion-item>
+			<ion-item class="login-item">
+				
+			</ion-item>
+			<ion-button class="login-button" (click)="userLogin()" expand="block">Entrar
+				<ion-icon slot="end" name="enter-outline" ></ion-icon>
+			</ion-button>
+		</ion-card-content>
+	</ion-card>
+	
+	
+</ion-content>

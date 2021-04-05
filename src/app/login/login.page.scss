@@ -1,0 +1,42 @@
+.login {
+
+	&-button {
+		width: 40%;
+		margin: .5em auto;
+	}
+
+	&-content {
+		position: relative;
+	}
+
+	&-card {
+
+		//width: 60%;
+
+		@media screen and (max-width: 80em) {
+			width: 80%;
+		}
+		@media screen and (max-width: 90em) {
+			//width: 80%; //usado en compilación para móvil
+		}
+		@media screen and (min-width: 89em) {
+			//width: 60%; //usado en compilación para móvil
+		}
+		@media screen and (min-width: 79em) {
+			width: 30%;
+		}
+		
+		
+		display: inline-block;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	&-item {
+		&:not(:first-child) {
+			margin-top: 2rem;
+		}
+	}
+}

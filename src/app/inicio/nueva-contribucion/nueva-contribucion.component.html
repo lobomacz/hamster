@@ -1,0 +1,71 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="/inicio"></ion-back-button>
+		</ion-buttons>
+		<ion-title>{{ 'Ingresar Ayuda' | uppercase }}</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="contribucion">
+
+	<ion-card>
+		<ion-card-content>
+			<ion-text color="dark">
+				<h4 class="uppercase">
+					Llene los campos con los datos correspondientes y presione el botón para guardar el registro en la base central.
+				</h4>
+			</ion-text>
+			<ion-item-divider></ion-item-divider>
+			<ion-text color="secondary">
+				<h5 class="uppercase">
+					Verifique que la información sea correcta. Una vez enviado, no podrá modificar el registro sin ayuda del administrador.
+				</h5>
+			</ion-text>
+		</ion-card-content>
+	</ion-card>
+
+	<ion-item class="field-item" >
+		<ion-label position="stacked">{{ 'fecha' | uppercase }}</ion-label>
+		<ion-datetime #dtFecha="ngModel" [(ngModel)]="contribucion.fecha" max="{{ hoy }}" displayFormat="DDDD, MMM D, YYYY" value="{{ hoy }}" [monthShortNames]="meses" [dayNames]="dias" doneText="Hecho" cancelText="Cancelar" name="fecha" type="date" required></ion-datetime>
+	</ion-item>
+	<ion-item class="field-item" >
+		<ion-label position="stacked">{{ 'Beneficiario' | uppercase }}</ion-label>
+		<ion-select interface="action-sheet" name="beneficiario" #optBeneficiario="ngModel" [(ngModel)]="contribucion.beneficiario" required>
+			<ion-select-option *ngFor="let beneficiario of beneficiarios" value="{{ beneficiario.cedula }}">{{ beneficiario.primer_nombre + ' ' + beneficiario.primer_apellido + ' ' + beneficiario.cedula | uppercase }}</ion-select-option>
+		</ion-select>
+		<ion-button [routerLink]="['/beneficiarios/nuevo/contrib']" fill="clear" slot="end">
+			<ion-icon slot="icon-only" name="add-outline"></ion-icon>
+		</ion-button>
+	</ion-item>
+	<ion-item class="field-item">
+		<ion-label position="stacked">{{ 'Tipo' | uppercase }}</ion-label>
+		<ion-select interface="action-sheet" name="tipoAporte" #optTipoAporte="ngModel" [(ngModel)]="contribucion.tipo" required>
+			<ion-select-option *ngFor="let tipo of keyTipo" value="{{ tipo }}">{{ tipos[tipo].label | uppercase }}</ion-select-option>
+		</ion-select>
+	</ion-item>
+	<ion-item class="field-item">
+		<ion-label position="stacked">{{ 'Monto' | uppercase }} C$</ion-label>
+		<ion-input type="number" name="monto" #txtMonto="ngModel" [(ngModel)]="contribucion.monto" inputmode="numeric" required></ion-input>
+	</ion-item>
+	<ion-item class="field-item">
+		<ion-label position="stacked">{{ 'Concepto' | uppercase }}</ion-label>
+		<ion-textarea name="concepto" #txtConcepto="ngModel" [(ngModel)]="contribucion.concepto" maxlength="150" cols="50" rows="3" inputmode="text" required></ion-textarea>
+	</ion-item>
+	<ion-item class="field-item">
+		<ion-label position="stacked">{{ 'Funcionario' | uppercase }}</ion-label>
+		<ion-select interface="action-sheet" name="funcionario" #optFuncionario="ngModel" [(ngModel)]="contribucion.funcionario" required>
+			<ion-select-option *ngFor="let funcionario of funcionarios" value="{{ funcionario.id }}" >
+				{{ funcionario.nombre + ' ' + funcionario.apellido | uppercase }}&mdash;{{ funcionario.institucion.siglas | uppercase }}
+			</ion-select-option>
+		</ion-select>
+	</ion-item>
+	<ion-item>
+		<ion-button (click)="showAlert()" size="big">
+			{{ 'Guardar' | uppercase }}&nbsp;
+			<ion-icon name="save-outline"></ion-icon>
+		</ion-button>
+	</ion-item>
+</ion-content>
+
+

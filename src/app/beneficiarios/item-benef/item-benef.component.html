@@ -1,0 +1,11 @@
+<ion-item [routerLink]="['/beneficiarios/ver/', beneficiario.cedula]" [detail]="true">
+	<div>
+		<ion-label>
+			{{ beneficiario.primer_nombre + ' ' + beneficiario.primer_apellido | uppercase }}
+		</ion-label>
+		<ion-note>{{ beneficiario.cedula | uppercase }}</ion-note>
+	</div>
+	
+	
+	<ion-badge color="{{ color }}" slot="end">{{ beneficiario.contribuciones.length }}</ion-badge>
+</ion-item>

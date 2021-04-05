@@ -1,0 +1,99 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+  	<ion-buttons slot="start">
+  		<ion-button (click)="Logout()" >
+  			<ion-icon name="exit-outline" slot="icon-only"></ion-icon>
+  		</ion-button>
+  	</ion-buttons>
+    <ion-title>{{ 'Ayudas Sociales' | uppercase }}</ion-title>
+    <ion-buttons slot="end">
+    	<ion-button routerLink="/beneficiarios" fill="clear">
+    		<ion-icon name="people-outline" slot="icon-only"></ion-icon>
+    	</ion-button>
+    	<ion-button routerLink="/inicio/nuevo" fill="clear">
+	    	<ion-icon name="add-outline" slot="icon-only"></ion-icon>
+	    </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="contribuciones">
+	<ion-item>
+		<ion-text color="dark">
+			<h5>{{ 'Instituciones autonómicas' | uppercase }}</h5>
+		</ion-text>
+	</ion-item>
+	<ion-item>
+		<ion-input #searchField="ngModel" name="txtCedula" inputmode="text" class="search-input" slot="end" type="text" pattern="[0-9]{3}-[0-9]{6}-[0-9A-Z]{5}" maxlength="16" minlength="16" color="primary" [(ngModel)]="cedula" placeholder="000-000000-XXXXX"></ion-input>
+		<ion-button color="light" slot="end" (click)="ContribucionesPorBeneficiario()" >
+			<ion-icon slot="icon-only" name="search-outline"></ion-icon>
+		</ion-button>
+	</ion-item>
+	<ion-item-divider class="header-divider">
+		<ion-label>Leyenda</ion-label>
+	</ion-item-divider>
+	<ion-grid>
+		<ion-row>
+			<ion-col>
+				<ion-item>
+					<ion-icon name="cash-outline"></ion-icon>
+					<ion-label class="legend-label">Dinero</ion-label>
+				</ion-item>
+			</ion-col>
+			<ion-col>
+				<ion-item>
+					<ion-icon name="medkit-outline"></ion-icon>
+					<ion-label class="legend-label">Medicinas</ion-label>
+				</ion-item>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col>
+				<ion-item>
+					<ion-icon name="cart-outline"></ion-icon>
+					<ion-label class="legend-label">Provisión</ion-label>
+				</ion-item>
+			</ion-col>
+			<ion-col>
+				<ion-item>
+					<ion-icon name="bus-outline"></ion-icon>
+					<ion-label class="legend-label">Pasajes</ion-label>
+				</ion-item>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col>
+				<ion-item>
+					<ion-icon name="hammer-outline"></ion-icon>
+					<ion-label class="legend-label">Materiales</ion-label>
+				</ion-item>
+			</ion-col>
+			<ion-col>
+				<ion-item>
+					<ion-icon name="library-outline"></ion-icon>
+					<ion-label class="legend-label">Art. Escolares</ion-label>
+				</ion-item>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col size="6">
+				<ion-item>
+					<ion-icon name="flower-outline"></ion-icon>
+					<ion-label class="legend-label">Otro</ion-label>
+				</ion-item>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	
+	<ion-item-divider class="header-divider">
+		<ion-label>Lista</ion-label>
+	</ion-item-divider>
+	<ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+		<ion-refresher-content></ion-refresher-content>
+	</ion-refresher>
+
+	<ion-list>
+		<app-item-contribucion *ngFor="let contribucion of contribuciones" [contribucion]="contribucion" [token]="token"></app-item-contribucion>
+	</ion-list>
+
+</ion-content>

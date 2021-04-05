@@ -1,0 +1,75 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button id="btnRegreso" defaultHref="{{ backroute }}"></ion-back-button>
+		</ion-buttons>
+		<ion-title>{{ 'Nuevo Beneficiario' | uppercase }}</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="beneficiario">
+
+	<ion-card>
+		<ion-card-content>
+			<ion-text color="dark">
+				<h4 class="uppercase">
+					Llene los campos con los datos correspondientes y presione el botón para guardar el registro en la base central.
+				</h4>
+			</ion-text>
+			<ion-item-divider></ion-item-divider>
+			<ion-text color="secondary">
+				<h5 class="uppercase">
+					Verifique que la información sea correcta. Una vez enviado, no podrá modificar el registro sin ayuda del administrador.
+				</h5>
+			</ion-text>
+		</ion-card-content>
+	</ion-card>
+
+	<ion-item class="field-item">
+		<ion-label position="stacked">{{ 'Cédula' | uppercase }}</ion-label>
+		<ion-input type="text" name="cedula" #txtCedula="ngModel" [(ngModel)]="beneficiario.cedula" pattern="[0-9]{3}-[0-9]{6}-[0-9A-Z]{5}" placeholder="000-000000-XXXXX" maxlength="16" required></ion-input>
+	</ion-item>
+	<ion-item class="field-item">
+		<ion-label position="stacked">{{ 'Fecha de Nacimiento' | uppercase }}</ion-label>
+		<ion-datetime name="fecha_nac" #datFechaNac="ngModel" [(ngModel)]="beneficiario.fecha_nac" doneText="Hecho" cancelText="Cancelar" value="{{ hoy }}" max="{{ hoy }}" displayFormat="D/M/YYYY" required></ion-datetime>
+	</ion-item>
+	<ion-item class="field-item">
+		<ion-label position="stacked">{{ 'Primer nombre' | uppercase }}</ion-label>
+		<ion-input type="text" name="primer_nombre" #txtPrimerNombre="ngModel" [(ngModel)]="beneficiario.primer_nombre" maxlength="25" required></ion-input>
+	</ion-item>
+	<ion-item class="field-item">
+		<ion-label position="stacked">{{ 'Segundo nombre' | uppercase }}</ion-label>
+		<ion-input type="text" name="segundo_nombre" #txtSegundoNombre="ngModel" [(ngModel)]="beneficiario.segundo_nombre" maxlength="25"></ion-input>
+	</ion-item>
+	<ion-item class="field-item">
+		<ion-label position="stacked">{{ 'Primer Apellido' | uppercase }}</ion-label>
+		<ion-input type="text" name="primer_apellido" #txtPrimerApellido="ngModel" [(ngModel)]="beneficiario.primer_apellido" maxlength="25" required></ion-input>
+	</ion-item>
+	<ion-item class="field-item">
+		<ion-label position="stacked">{{ 'Segundo Apellido' | uppercase }}</ion-label>
+		<ion-input type="text" name="segundo_apellido" #txtSegundoApellido="ngModel" [(ngModel)]="beneficiario.segundo_apellido" maxlength="25"></ion-input>
+	</ion-item>
+	<ion-item class="field-item">
+		<ion-label position="stacked">{{ 'Sexo' | uppercase }}</ion-label>
+		<ion-select name="sexo" #optSexo="ngModel" [(ngModel)]="beneficiario.sexo" required>
+			<ion-select-option value="M">{{ 'Masculino' | uppercase }}</ion-select-option>
+			<ion-select-option value="F">{{ 'Femenino' | uppercase }}</ion-select-option>
+		</ion-select>
+	</ion-item>
+	<ion-item class="field-item">
+		<ion-label position="stacked">{{ 'Etnia' | uppercase }}</ion-label>
+		<ion-select #optEtnia="ngModel" [(ngModel)]="beneficiario.etnia" required>
+			<ion-select-option *ngFor="let etnia of keyEtnias" value="{{ etnia }}" >{{ etnias[etnia] | uppercase }}</ion-select-option>
+		</ion-select>
+	</ion-item>
+	<ion-item class="field-item">
+		<ion-label position="stacked">{{ 'Dirección' | uppercase }}</ion-label>
+		<ion-textarea name="direccion" #txtDireccion="ngModel" [(ngModel)]="beneficiario.direccion" cols="25" rows="10" maxlength="250"></ion-textarea>
+	</ion-item>
+	<ion-item>
+		<ion-button (click)="showAlert()" size="big">
+			{{ 'Guardar' | uppercase }}&nbsp;
+			<ion-icon name="save-outline"></ion-icon>
+		</ion-button>
+	</ion-item>
+</ion-content>
