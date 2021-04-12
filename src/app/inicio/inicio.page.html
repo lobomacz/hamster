@@ -24,7 +24,7 @@
 		</ion-text>
 	</ion-item>
 	<ion-item>
-		<ion-input #searchField="ngModel" name="txtCedula" inputmode="text" class="search-input" slot="end" type="text" pattern="[0-9]{3}-[0-9]{6}-[0-9A-Z]{5}" maxlength="16" minlength="16" color="primary" [(ngModel)]="cedula" placeholder="000-000000-XXXXX"></ion-input>
+		<ion-input #searchField="ngModel" name="txtCedula" inputmode="text" class="search-input" slot="end" type="text" pattern="[0-9]{3}-[0-9]{6}-[0-9A-Za-z]{5}" maxlength="16" minlength="16" color="primary" [(ngModel)]="cedula" placeholder="000-000000-XXXXX"></ion-input>
 		<ion-button color="light" slot="end" (click)="ContribucionesPorBeneficiario()" >
 			<ion-icon slot="icon-only" name="search-outline"></ion-icon>
 		</ion-button>

@@ -51,5 +51,17 @@ export class Utilities {
 
 		return fullname;		
 	}
+
+	static CheckExpiration(expiracion:Date){
+
+    let hoy = new Date();
+
+    if(expiracion < hoy){
+      return false;
+    } else {
+      return true;
+    }
+
+  }
 	
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpParams, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { HTTP } from '@ionic-native/http/ngx';
 import { Plugins } from '@capacitor/core';
 import { environment } from '../../environments/environment';
 import { Contribucion } from '../interfaces/contribucion';
@@ -7,6 +8,7 @@ import { Beneficiario } from '../interfaces/beneficiario';
 import { Funcionario } from '../interfaces/funcionario';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+
 const { Storage } = Plugins;
 
 @Injectable({
@@ -15,7 +17,6 @@ const { Storage } = Plugins;
 export class DataService {
 
   private ApiUrl:string = environment.appUrl;
-  private authToken:string;
 
   private tipos:any = {
     'M': { label:'Aporte en Efectivo', icon: 'cash-outline'},
@@ -45,12 +46,15 @@ export class DataService {
     return this.tipos;
   }
 
-  constructor(private _http:HttpClient) { 
-    this.getAuthToken();
-  }
+  constructor(
+    private _http:HttpClient,
+    private http:HTTP,
+    ) { }
 
   private handleError(error: HttpErrorResponse){
+
     let errorMessage:string = 'Ocurrió un error desconocido.';
+
     let status:number = error.status;
     
     if(status == 401 || status == 403){
@@ -71,12 +75,8 @@ export class DataService {
     return throwError(errorMessage);
   }
 
-  async getAuthToken(){
-    const token = await Storage.get({key: 'authToken'})
-    this.authToken = token.value;
-  }
 
-  public getContribuciones(authToken:string):Observable<any>{
+  public getContribuciones(authToken:string):Observable<HttpResponse<any>>{
 
     const url = this.ApiUrl.concat('/contribuciones/');
 
@@ -92,6 +92,19 @@ export class DataService {
     };
 
     return this._http.get<Contribucion>(url, options).pipe(catchError(this.handleError));
+
+  }
+
+  public getContribucionesNative(authToken:string):Promise<any>{
+
+    const url = this.ApiUrl.concat('/contribuciones/');
+
+    let headers:any = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic '.concat(authToken)
+    };
+
+    return this.http.get(url, {}, headers);
 
   }
 
@@ -116,6 +129,20 @@ export class DataService {
   }
 
 
+  public getContribPorBenefNative(cedula:string, authToken:string):Promise<any>{
+
+    const url = this.ApiUrl.concat('/contribuciones/', cedula, '/por_beneficiario/');
+
+    let headers:any = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic '.concat(authToken)
+    };
+
+    return this.http.get(url, {}, headers);
+
+  }
+
+
   public getContribucionById(id:number, authToken:string):Observable<HttpResponse<any>>{
 
     let url = this.ApiUrl.concat('/contribuciones/', id.toString());
@@ -136,7 +163,22 @@ export class DataService {
   }
 
 
+  public getContribucionByIdNative(id:number, authToken:string):Promise<any>{
+
+    let url = this.ApiUrl.concat('/contribuciones/', id.toString());
+
+    let headers:any = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic '.concat(authToken)
+    };
+
+    return this.http.get(url, {}, headers);
+
+  }
+
+
   public newContribucion(contribucion:Contribucion, authToken:string):Observable<HttpResponse<any>>{
+    
     const url = this.ApiUrl.concat('/contribuciones/');
 
     let headers:HttpHeaders = new HttpHeaders({
@@ -154,6 +196,21 @@ export class DataService {
 
   }
 
+
+  public newContribucionNative(contribucion:Contribucion, authToken:string):Promise<any>{
+    
+    const url = this.ApiUrl.concat('/contribuciones/');
+
+    let headers:any = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic '.concat(authToken)
+    };
+
+    return this.http.post(url, contribucion, headers);
+
+  }
+
+
   public getBeneficiarios(authToken:string): Observable<HttpResponse<any>> {
 
     const url = this.ApiUrl.concat('/beneficiarios/');
@@ -170,6 +227,19 @@ export class DataService {
     };
 
     return this._http.get(url, options).pipe(catchError(this.handleError));
+
+  }
+
+  public getBeneficiariosNative(authToken:string): Promise<any> {
+
+    const url = this.ApiUrl.concat('/beneficiarios/');
+
+    let headers:any = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic '.concat(authToken)
+    };
+
+    return this.http.get(url, {}, headers);
 
   }
 
@@ -193,6 +263,20 @@ export class DataService {
   }
 
 
+  public getBeneficiarioByIdNative(id:string, authToken:string):Promise<any>{
+
+    let url = this.ApiUrl.concat('/beneficiarios/', id);
+
+    let headers:any = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic '.concat(authToken)
+    };
+
+    return this.http.get(url, {}, headers);
+
+  }
+
+
   public newBeneficiario(beneficiario:Beneficiario, authToken:string):Observable<HttpResponse<any>>{
     
     const url = this.ApiUrl.concat('/beneficiarios/');
@@ -212,6 +296,19 @@ export class DataService {
   }
 
 
+  public newBeneficiarioNative(beneficiario:Beneficiario, authToken:string):Promise<any>{
+    
+    const url = this.ApiUrl.concat('/beneficiarios/');
+
+    let headers:any = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic '.concat(authToken)
+    };
+
+    return this.http.post(url, beneficiario, headers);
+  }
+
+
   public getInstituciones(authToken:string):Observable<HttpResponse<any>> {
 
     const url = this.ApiUrl.concat('/instituciones/');
@@ -228,6 +325,20 @@ export class DataService {
     };
 
     return this._http.get(url, options).pipe(catchError(this.handleError));
+
+  }
+
+
+  public getInstitucionesNative(authToken:string):Promise<any> {
+
+    const url = this.ApiUrl.concat('/instituciones/');
+
+    let headers:any = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic '.concat(authToken)
+    };
+
+    return this.http.get(url, {}, headers);
 
   }
 
@@ -251,6 +362,20 @@ export class DataService {
   }
 
 
+  public getFuncionariosNative(authToken:string):Promise<any> {
+
+    const url = this.ApiUrl.concat('/funcionarios/');
+
+    let headers:any = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic '.concat(authToken)
+    };
+
+    return this.http.get(url, {}, headers);
+
+  }
+
+
   public getFuncionarioById(id:number, authToken:string):Observable<HttpResponse<any>> {
 
     const url = this.ApiUrl.concat('/funcionarios/', id.toString(), '/');
@@ -267,6 +392,20 @@ export class DataService {
     };
 
     return this._http.get<Funcionario>(url, options).pipe(catchError(this.handleError));
+
+  }
+
+
+  public getFuncionarioByIdNative(id:number, authToken:string):Promise<any> {
+
+    const url = this.ApiUrl.concat('/funcionarios/', id.toString(), '/');
+
+    let headers:any = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic '.concat(authToken)
+    };
+
+    return this.http.get(url, {}, headers);
 
   }
 

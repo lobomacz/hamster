@@ -4,7 +4,22 @@
 	}
 
 	&-card {
-		width: 80%;
+
+		&__mov {
+			@media screen and (max-width: 80em) {
+				width: 80%;
+			}
+
+			@media screen and (min-width: 79.9em) {
+				width: 50%;
+			}
+			
+		}
+
+		&__desk {
+			width: 30%;
+		}
+
 		display: inline-block;
 		position: absolute;
 		top: 50%;
@@ -12,7 +27,18 @@
 		transform: translate(-50%, -50%);
 		text-align: center;
 		&-img {
-			width: 50vw;
+			width: 10rem;
+			height: 10rem;
+			display: inline-block;
+			background-image: url('../../assets/img/hamster.png');
+			background-size: 100%;
+			@media (prefers-color-scheme: dark){
+				width: 10rem;
+				height: 10rem;
+				display: inline-block;
+				background-image: url('../../assets/img/hamster_dark.png');
+				background-size: 100%;
+			}
 		}
 	}
 }

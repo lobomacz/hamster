@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
-import { ToastController } from '@ionic/angular';
+import { ToastController, Platform } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { DataService } from '../services/data.service';
 import { Beneficiario } from '../interfaces/beneficiario';
+import { Utilities } from '../clases/utilities';
 
 
 @Component({
@@ -15,73 +16,75 @@ import { Beneficiario } from '../interfaces/beneficiario';
 export class BeneficiariosPage implements OnInit {
 
 	public beneficiarios:Beneficiario[];
-  private token:string;
 
   constructor(
     private _auth:AuthService,
     private _data:DataService, 
     private _router:Router,
-    private toastCtrl:ToastController) { }
+    private toastCtrl:ToastController,
+    private platform:Platform) { }
 
   ngOnInit() {
   	
-    this.CheckSession();
+    this.LlenaDatos();
 
   }
 
-  
-  private CheckSession(){
+  ionViewDidEnter(){
+    this.refresh(false);
+  }
 
-    this._auth.getSession().then((val) => {
+  refresh(ev) {
+    this.LlenaDatos(true, ev);
+  }
 
-      if (val.value) {
+
+  private LlenaDatos(refresh:boolean=false, event?:any){
+
+    this._auth.updateSession().then(() => {});
+
+    this._auth.getAuthToken().then((token) => {
+
+      if (!(this.platform.is('desktop') || this.platform.is('mobileweb'))) {
         
-        let session:number = parseInt(val.value);
+        this._data.getBeneficiariosNative(token.value).then((data) => {
 
-        this._auth.getAuthToken().then((uval) => {
+          if(data.data){
+            this.beneficiarios = JSON.parse(data.data);
 
-          let authtoken = uval.value;
-          this.token = authtoken;
-          let expiracion = new Date(session);
-          this.CheckExpiration(expiracion);
+            if (refresh) {
+              event.detail.complete();
+            }
+          }
 
-        }).catch((err) => {
-          this.showToast(err, true);
+        }).catch((error) => {
+          console.error("Error: ".concat(error.error));
+          this.showToast(error.error);
         });
 
       } else {
-        let mensaje = 'Acceso Denegado';
-        this.showToast(mensaje, true);
+
+        this._data.getBeneficiarios(token.value).subscribe((response:HttpResponse<any>) => {
+          
+          this.beneficiarios = response.body;
+
+          if (refresh) {
+            event.detail.complete();
+          }
+
+        }, (error) => {
+          console.error("Error: ".concat(error));
+          this.showToast(error);
+        });
+
       }
 
-      
-
     }).catch((error) => {
-      this.showToast(error, true);
-    });
-
-  }
-
-  private CheckExpiration(sessionDate:Date){
-
-    let hoy:Date = new Date();
-
-    if (sessionDate < hoy) {
-      let mensaje = 'Sesión Expirada';
-      this.showToast(mensaje, true);
-    } else {
-      this.LlenaDatos();
-    }
-
-  }
-
-  private LlenaDatos(){
-    this._data.getBeneficiarios(this.token).subscribe((response:HttpResponse<any>) => {
-      this.beneficiarios = response.body;
-      this._auth.updateSession().then(() => {});
-    }, (error) => {
       this.showToast(error);
     });
+
+
+    
   }
 
   async showToast(message:string, redirect:boolean=false){
@@ -93,7 +96,7 @@ export class BeneficiariosPage implements OnInit {
 
     if (redirect == true) {
       toast.onDidDismiss().then(() => {
-        this._router.navigateByUrl('/login');
+        this._router.navigateByUrl('/hamster');
       });
     }
 
