@@ -76,6 +76,40 @@ export class DataService {
   }
 
 
+  public getContribCount(authToken:string):Observable<HttpResponse<any>>{
+
+    const url = this.ApiUrl.concat('/contribuciones/count/');
+
+    let headers:HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic '.concat(authToken)
+    });
+
+    let options = {
+      'headers':headers,
+      observe: 'response' as const,
+      responseType: 'json' as const,
+    };
+
+    return this._http.get(url, options).pipe(catchError(this.handleError));
+
+  }
+
+
+  public getContribCountNative(authToken:string):Promise<any>{
+
+    const url = this.ApiUrl.concat('/contribuciones/count/');
+
+    let headers:any = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic '.concat(authToken)
+    };
+
+    return this.http.get(url, {}, headers);
+
+  }
+
+
   public getContribuciones(authToken:string):Observable<HttpResponse<any>>{
 
     const url = this.ApiUrl.concat('/contribuciones/');
@@ -91,7 +125,7 @@ export class DataService {
       responseType: 'json' as const,
     };
 
-    return this._http.get<Contribucion>(url, options).pipe(catchError(this.handleError));
+    return this._http.get(url, options).pipe(catchError(this.handleError));
 
   }
 
@@ -207,6 +241,40 @@ export class DataService {
     };
 
     return this.http.post(url, contribucion, headers);
+
+  }
+
+
+  public getBenefCount(authToken:string): Observable<HttpResponse<any>> {
+
+    const url = this.ApiUrl.concat('/beneficiarios/count/');
+
+    let headers:HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic '.concat(authToken)
+    });
+
+    let options = {
+      'headers':headers,
+      observe: 'response' as const,
+      responseType: 'json' as const,
+    };
+
+    return this._http.get(url, options).pipe(catchError(this.handleError));
+
+  }
+
+
+  public getBenefCountNative(authToken:string): Promise<any> {
+
+    const url = this.ApiUrl.concat('/beneficiarios/count/');
+
+    let headers:any = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic '.concat(authToken)
+    };
+
+    return this.http.get(url, {}, headers);
 
   }
 

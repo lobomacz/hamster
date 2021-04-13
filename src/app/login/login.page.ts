@@ -22,7 +22,7 @@ export class LoginPage implements OnInit {
 	public AppName:string = environment.appName;
 	public nombreusuario:string;
 	public contrasena:string;
-  public plataforma:string = 'desktop';
+  public plataforma:string = 'login-card__desktop';
 
   private ApiUrl:string = environment.appUrl;
   
@@ -37,10 +37,8 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     
-    if (this.platform.is('android')) {
-      this.plataforma = 'android';
-    } else {
-      this.plataforma = 'desktop';
+    if (!this.platform.is('desktop')) {
+      this.plataforma = 'login-card__mobile';
     }
 
   }

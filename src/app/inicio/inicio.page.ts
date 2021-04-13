@@ -35,129 +35,141 @@ export class InicioPage implements OnInit {
   ngOnInit() {
     
     this.filtrar = false;
-    this.LlenaDatos();
-
+    this._auth.getAuthToken().then((token) => {
+      this.token = token.value;
+      this.LlenaDatos();
+    });
+    
   }
 
 
   ionViewDidEnter(){
     this.filtrar = false;
     this.cedula = null;
-    this.refresh(false);
+    this.refresh(null);
   }
 
 
   refresh(ev){
-    
-    this.LlenaDatos(true, ev);
+
+    this._auth.getAuthToken().then((token) => {
+      this.token = token.value;
+      if (!(this.platform.is('desktop') || this.platform.is('mobileweb'))){
+        this._data.getContribCountNative(this.token).then((response) => {
+          this.CountList(response, ev);
+        }).catch((response) => {
+          this.showToast(response.error);
+        });
+      } else {
+        this._data.getContribCount(this.token).subscribe((response:HttpResponse<any>) => {
+          this.CountList(response, ev);
+        }, (error) => {
+          console.error("Error: ".concat(error));
+          this.showToast(error);
+        });
+      }
+    });
     
   }
 
-  LlenaDatos(refresh:boolean=false, event?:any){
+
+  CountList(data:any, ev:any) {
+
+    let count = 0;
+
+    if (data.data) {
+      count = JSON.parse(data.data).count;
+    } else if (data.body) {
+      count = JSON.parse(data.body).count;
+    }
+
+    if ((this.contribuciones != null && this.contribuciones.length > 0) && count > this.contribuciones.length) {
+      
+      this.LlenaDatos();
+
+    }
+
+    if (ev != null) {
+      ev.detail.complete();
+    } 
+
+  }
+
+  LlenaDatos(){
 
     // 'desktop' o 'mobileweb' para plataformas web
     // de lo contrario, se trata de plataforma híbrida android.
+    this._auth.updateSession().then(() => {});
 
-    this._auth.getAuthToken().then((token) => {
+    if (!(this.platform.is('desktop') || this.platform.is('mobileweb'))) {
 
-      this.token = token.value;
-
-      if (!(this.platform.is('desktop') || this.platform.is('mobileweb'))) {
-
-        if (this.filtrar) {
+      if (this.filtrar) {
+        
+        this._data.getContribPorBenefNative(this.cedula.toUpperCase(), this.token).then((data) => {
           
-          this._data.getContribPorBenefNative(this.cedula.toUpperCase(), this.token).then((data) => {
-            
-            let contribuciones = JSON.parse(data.data);
+          let contribuciones = JSON.parse(data.data);
 
-            this.FillIfExists(contribuciones);
+          this.FillIfExists(contribuciones);
 
-            this._auth.updateSession().then(() => {});
+        }).catch((error) => {
 
-            if (refresh == true) {
-              event.detail.complete();
-            }
+          console.error("Error: ".concat(error.error));
+          this.showToast(error.error);
 
-          }).catch((error) => {
-
-            console.error("Error: ".concat(error.error));
-            this.showToast(error.error);
-
-          });
-
-        } else {
-
-          this._data.getContribucionesNative(this.token).then((data) => {
-
-            this.contribuciones = JSON.parse(data.data);
-
-            this._auth.updateSession().then(() => {});
-
-            if (refresh == true) {
-              event.detail.complete();
-            }
-
-          }).catch((error) => {
-
-            console.error("Error: ".concat(error.error));
-            this.showToast(error.error);
-
-          });
-
-        }
+        });
 
       } else {
 
-        if (this.filtrar) {
+        this._data.getContribucionesNative(this.token).then((data) => {
 
-          this._data.getContribucionesPorBeneficiario(this.cedula.toUpperCase(), this.token).subscribe((response:HttpResponse<any>) => {
-            if (response.body && (response.body.length > 0)) {
+          this.contribuciones = JSON.parse(data.data);
 
-              let contribuciones = response.body;
+        }).catch((error) => {
 
-              this.FillIfExists(contribuciones);
+          console.error("Error: ".concat(error.error));
+          this.showToast(error.error);
 
-              this._auth.updateSession().then(() => {});
-
-              if (refresh == true) {
-                event.detail.complete();
-              }
-
-            }
-          }, (error) => {
-
-            console.error("Error: ".concat(error));
-            this.showToast(error);
-
-          });
-
-        } else {
-
-          this._data.getContribuciones(this.token).subscribe((response:HttpResponse<any>) => {
-            
-            this.contribuciones = response.body;
-
-            this._auth.updateSession().then(() => {});
-
-            if (refresh == true) {
-              event.detail.complete();
-            }
-
-          }, (error) => {
-
-            console.error("Error: ".concat(error));
-            this.showToast(error, false);
-
-          });
-
-        }
+        });
 
       }
 
-    }).catch((error) => {
-      this.showToast(error, false);
-    });
+    } else {
 
+      if (this.filtrar) {
+
+        this._data.getContribucionesPorBeneficiario(this.cedula.toUpperCase(), this.token).subscribe((response:HttpResponse<any>) => {
+         
+          if (response.body && (response.body.length > 0)) {
+
+            let contribuciones = response.body;
+
+            this.FillIfExists(contribuciones);
+
+          }
+
+        }, (error) => {
+
+          console.error("Error: ".concat(error));
+          this.showToast(error);
+
+        });
+
+      } else {
+
+        this._data.getContribuciones(this.token).subscribe((response:HttpResponse<any>) => {
+          
+          this.contribuciones = response.body;
+
+        }, (error) => {
+
+          console.error("Error: ".concat(error));
+          this.showToast(error, false);
+
+        });
+
+      }
+
+    }
   	
   }
 

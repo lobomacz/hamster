@@ -10,11 +10,11 @@ import { environment } from '../../environments/environment';
 export class HomePage {
 
   public AppName:string = environment.appName;
-  public plataforma:string = 'desktop';
+  public plataforma:string = 'main-card__desk';
   
   constructor(private platform:Platform) {
-  	if(this.platform.is('android')){
-  		this.plataforma = 'android';
+  	if(!this.platform.is('desktop')){
+  		this.plataforma = 'main-card__mov';
   	}
   }
 

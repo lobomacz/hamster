@@ -11,21 +11,21 @@
 
 	&-card {
 
-		&__wide {
+		&__desktop {
 
 			width: 60%;
 
 			@media screen and (max-width: 80em) {
-				width: 60%;
+				width: 50%;
 			}
 
 			@media screen and (min-width: 79em) {
-				width: 30%;
+				width: 40%;
 			}
 
 		}
 
-		&__narrow {
+		&__mobile {
 
 			width: 80%;
 		
@@ -33,7 +33,7 @@
 				width: 80%; //usado en compilación para móvil
 			}
 			@media screen and (min-width: 89.9em) {
-				width: 50%; //usado en compilación para móvil
+				width: 60%; //usado en compilación para móvil
 			}
 
 		}
