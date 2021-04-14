@@ -11,27 +11,39 @@
 
 	&-card {
 
-		//width: 60%;
+		&__desktop {
 
-		@media screen and (max-width: 80em) {
+			width: 60%;
+
+			@media screen and (max-width: 80em) {
+				width: 50%;
+			}
+
+			@media screen and (min-width: 79em) {
+				width: 40%;
+			}
+
+		}
+
+		&__mobile {
+
 			width: 80%;
-		}
-		@media screen and (max-width: 90em) {
-			//width: 80%; //usado en compilación para móvil
-		}
-		@media screen and (min-width: 89em) {
-			//width: 60%; //usado en compilación para móvil
-		}
-		@media screen and (min-width: 79em) {
-			width: 30%;
-		}
 		
+			@media screen and (max-width: 90em) {
+				width: 80%; //usado en compilación para móvil
+			}
+			@media screen and (min-width: 89.9em) {
+				width: 60%; //usado en compilación para móvil
+			}
+
+		}
 		
 		display: inline-block;
 		position: absolute;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
+		
 	}
 
 	&-item {

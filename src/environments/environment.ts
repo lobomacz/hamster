@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   appName: 'Hamster App',
-  appUrl: 'http://127.0.0.1:8000/hamster',
+  appUrl: 'http://si.graccs.gob.ni:8080/hamster',
   sessionAge: 259200000,
 };
 

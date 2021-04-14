@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "hamster",
+  "appId": "com.madmacz.hamster",
+  "appName": "Hamster",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

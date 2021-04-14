@@ -4,17 +4,19 @@ import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { HTTP } from '@ionic-native/http/ngx';
 
 import { AppComponent } from './app.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AuthService } from './services/auth.service';
 import { DataService } from './services/data.service';
-import { environment } from '../environments/environment';
+
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, PageNotFoundComponent],
   entryComponents: [],
   imports: [
   BrowserModule, 
@@ -25,6 +27,7 @@ import { environment } from '../environments/environment';
   providers: [
     AuthService,
     DataService,
+    HTTP,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -9,7 +10,12 @@ import { environment } from '../../environments/environment';
 export class HomePage {
 
   public AppName:string = environment.appName;
+  public plataforma:string = 'main-card__desk';
   
-  constructor() {}
+  constructor(private platform:Platform) {
+  	if(!this.platform.is('desktop')){
+  		this.plataforma = 'main-card__mov';
+  	}
+  }
 
 }

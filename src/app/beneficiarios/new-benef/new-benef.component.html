@@ -27,7 +27,7 @@
 
 	<ion-item class="field-item">
 		<ion-label position="stacked">{{ 'Cédula' | uppercase }}</ion-label>
-		<ion-input type="text" name="cedula" #txtCedula="ngModel" [(ngModel)]="beneficiario.cedula" pattern="[0-9]{3}-[0-9]{6}-[0-9A-Z]{5}" placeholder="000-000000-XXXXX" maxlength="16" required></ion-input>
+		<ion-input type="text" name="cedula" #txtCedula="ngModel" [(ngModel)]="beneficiario.cedula" pattern="[0-9]{3}-[0-9]{6}-[0-9A-Za-z]{5}" placeholder="000-000000-XXXXX" maxlength="16" required></ion-input>
 	</ion-item>
 	<ion-item class="field-item">
 		<ion-label position="stacked">{{ 'Fecha de Nacimiento' | uppercase }}</ion-label>

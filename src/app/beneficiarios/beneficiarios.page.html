@@ -5,7 +5,7 @@
             <ion-icon name="exit-outline" slot="icon-only"></ion-icon>
         </ion-button>
     </ion-buttons>
-    <ion-title>{{ 'Beneficiarios' | uppercase }}</ion-title>
+    <ion-title (click)="LlenaDatos()">{{ 'Beneficiarios' | uppercase }}</ion-title>
     <ion-buttons slot="end">
     	<ion-button [routerLink]="['/inicio']">
     		<ion-icon slot="icon-only" name="hand-left-outline" fill="clear" ></ion-icon>
@@ -18,7 +18,9 @@
 </ion-header>
 
 <ion-content *ngIf="beneficiarios">
-	
+	<ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+        <ion-refresher-content></ion-refresher-content>   
+    </ion-refresher>
 	<ion-list>
 		<ion-list-header>
 			<ion-text color="primary">
