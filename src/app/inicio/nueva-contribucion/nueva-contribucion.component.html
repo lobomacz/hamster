@@ -52,14 +52,6 @@
 		<ion-label position="stacked">{{ 'Concepto' | uppercase }}</ion-label>
 		<ion-textarea name="concepto" #txtConcepto="ngModel" [(ngModel)]="contribucion.concepto" maxlength="150" cols="50" rows="3" inputmode="text" required></ion-textarea>
 	</ion-item>
-	<ion-item class="field-item">
-		<ion-label position="stacked">{{ 'Funcionario' | uppercase }}</ion-label>
-		<ion-select interface="action-sheet" name="funcionario" #optFuncionario="ngModel" [(ngModel)]="contribucion.funcionario" required>
-			<ion-select-option *ngFor="let funcionario of funcionarios" value="{{ funcionario.id }}" >
-				{{ funcionario.nombre + ' ' + funcionario.apellido | uppercase }}&mdash;{{ funcionario.institucion.siglas | uppercase }}
-			</ion-select-option>
-		</ion-select>
-	</ion-item>
 	<ion-item>
 		<ion-button (click)="showAlert()" size="big">
 			{{ 'Guardar' | uppercase }}&nbsp;

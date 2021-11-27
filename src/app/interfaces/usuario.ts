@@ -1,5 +1,5 @@
-export interface Usuario {
 
+export interface Usuario {
 	id:number;
 	username:string;
 	password:string;
@@ -7,5 +7,5 @@ export interface Usuario {
 	last_name:string;
 	email:string;
 	is_active:boolean;
-
+	funcionario:number;
 }

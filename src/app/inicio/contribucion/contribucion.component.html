@@ -25,7 +25,7 @@
 			</ion-item>
 			<ion-item>
 				<h3>
-					{{ 'Entregado por: ' + funcionario.nombre + ' ' + funcionario.apellido | uppercase }}
+					{{ 'Entregado por: ' + funcionario.usuario.first_name + ' ' + funcionario.usuario.last_name | uppercase }}
 				</h3>
 				
 			</ion-item>
@@ -38,14 +38,6 @@
 				<h2>{{ 'Monto: C$' | uppercase }}&nbsp;</h2>
 				<ion-text color="primary">
 					<h1>{{  contribucion.monto | number:'1.2-2' }}</h1>
-				</ion-text>
-			</ion-item>
-			<ion-item>
-				<h2>
-					{{ 'Digitador: ' }}
-				</h2>&nbsp;
-				<ion-text color="secondary">
-					{{ contribucion.digitador | uppercase }}
 				</ion-text>
 			</ion-item>
 		</ion-card-content>

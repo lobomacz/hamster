@@ -7,6 +7,5 @@ export interface Contribucion {
 	monto:number,
 	concepto:string,
 	funcionario:number,
-	digitador:string,
 	creado:string,
 }

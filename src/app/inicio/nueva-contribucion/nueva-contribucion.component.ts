@@ -21,7 +21,6 @@ export class NuevaContribucionComponent implements OnInit {
   @ViewChild('optTipoAporte') tipoField:any;
   @ViewChild('txtMonto') montoField:any;
   @ViewChild('txtConcepto') conecptoField:any;
-  @ViewChild('optFuncionario') funcionarioField:any;
 
 
 	public AppName:string = environment.appName;
@@ -31,7 +30,6 @@ export class NuevaContribucionComponent implements OnInit {
 	public tipos:any;
   public keyTipo:string[];
 	public instituciones:any[];
-	public funcionarios:any[];
 
   public meses:string[] = [
     'Ene', 'Feb','Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic', 
@@ -81,7 +79,6 @@ export class NuevaContribucionComponent implements OnInit {
       monto: null,
       concepto: null,
       funcionario: null,
-      digitador: null,
       creado: this.hoy
     };
 
@@ -89,46 +86,9 @@ export class NuevaContribucionComponent implements OnInit {
 
     this.tipos = this._data.Tipos;
     this.keyTipo = Object.keys(this.tipos);
+    this.contribucion.funcionario = this._auth.Usuario.funcionario;
 
     this._auth.getAuthToken().then((token) => {
-
-      if (!(this.platform.is('desktop') || this.platform.is('mobileweb'))) {
-
-        this._data.getInstitucionesNative(token.value).then((data) => {
-          if (data.data) {
-            this.instituciones = JSON.parse(data.data);
-          }
-        }).catch((error) => {
-          console.error("Error: ".concat(error.error));
-          this.showToast(error.error);
-        });
-
-        this._data.getFuncionariosNative(token.value).then((data) => {
-          if (data.data) {
-            this.funcionarios = JSON.parse(data.data);
-          }
-        }).catch((error) => {
-          console.error("Error: ".concat(error.error));
-          this.showToast(error.error);
-        });
-
-      } else {
-
-        this._data.getInstituciones(token.value).subscribe((response:HttpResponse<any>) => {
-          this.instituciones = response.body;
-        }, (error) => {
-          console.error("Error: ".concat(error));
-          this.showToast(error);
-        });
-
-        this._data.getFuncionarios(token.value).subscribe((response:HttpResponse<any>) => {
-          this.funcionarios = response.body;
-        }, (error) => {
-          console.error("Error: ".concat(error));
-          this.showToast(error);
-        });
-
-      }
 
       this.LlenaBeneficiarios(token.value);
 
@@ -266,7 +226,7 @@ export class NuevaContribucionComponent implements OnInit {
   Validar():boolean{
     let valido = false;
 
-    if (this.dateField.valid && this.benefField.valid && this.tipoField.valid && this.montoField.valid && this.conecptoField.valid && this.funcionarioField.valid) {
+    if (this.dateField.valid && this.benefField.valid && this.tipoField.valid && this.montoField.valid && this.conecptoField.valid) {
       valido = true;
     }
 

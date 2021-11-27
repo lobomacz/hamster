@@ -4,6 +4,6 @@ export interface Funcionario {
 	apellido:string;
 	correo:string;
 	telefono:string;
-	usuario:number;
+	usuario:any;
 	institucion:any;
 }
